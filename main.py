@@ -15,9 +15,11 @@ class Sigmoid_Neuron:
         self.value = None
     def propagate(self):
         weighted_inputs = []
-        for n in len(self.input_layer):
+        for n in range(len(self.input_layer)):
             weighted_inputs.append((self.input_layer[n].value * self.input_weights[n]))
-        self.value = 1 / (1 + pow(e, -sum(weighted_inputs)))
+        # self.value = 1 / (1 + pow(e, -sum(weighted_inputs)))
+
+        self.value = sum(weighted_inputs)
 
 class ReLU_Neuron:
     # rectified linear unit
@@ -27,7 +29,7 @@ class ReLU_Neuron:
         self.value = None
     def propagate(self):
         weighted_inputs = []
-        for n in len(self.input_layer):
+        for n in range(len(self.input_layer)):
             weighted_inputs.append((self.input_layer[n].value * self.input_weights[n]))
         if sum(weighted_inputs) > 0:
             self.value = sum(weighted_inputs)
@@ -42,7 +44,7 @@ class Output_Neuron:
         self.label = label
     def propagate(self):
         weighted_inputs = []
-        for n in len(self.input_layer):
+        for n in range(len(self.input_layer)):
             weighted_inputs.append((self.input_layer[n].value * self.input_weights[n]))
         self.value = sum(weighted_inputs)
     def output(self):
@@ -52,7 +54,7 @@ class Input_Layer:
     def __init__(self, neurons):
         self.neurons = neurons
     def propagate(self, input_values):
-        for x in len(self.neurons):
+        for x in range(len(self.neurons)):
             self.neurons[x].propagate(input_values[x])
 
 class Interior_Layer:
@@ -65,6 +67,7 @@ class Interior_Layer:
 class Output_Layer:
     def __init__(self, neurons):
         self.neurons = neurons
+        self.labels = []
     def propagate(self):
         for neuron in self.neurons:
             neuron.propagate()
@@ -72,14 +75,6 @@ class Output_Layer:
         print("OUTPUT:")
         for neuron in self.neurons:
             neuron.output()
-    def get_output(self):
-        labels = []
-        for neuron in self.neurons:
-            if neuron.value > 0:
-                labels.append(neuron.label)
-        if len(labels) == 1:
-            labels = labels[0]
-        return labels
 
 class NeuralNetwork:
     def __init__(self):
@@ -93,14 +88,14 @@ class NeuralNetwork:
         self.input_layer = Input_Layer(neurons)
     def add_layer(self, num:int, type:str, weights_matrix):
         # possible types: sigmoid, relu
-        if type != "sigmoid" or type != "relu":
+        if type not in ["sigmoid", "relu"]:
             print("Invalid type selected for layer.")
             exit()
         neurons = []
         if len(self.layers) > 0:
-            input_neurons = self.input_layer.neurons
-        else:
             input_neurons = self.layers[-1].neurons
+        else:
+            input_neurons = self.input_layer.neurons
         for i in range(num):
             if type == "sigmoid":
                 neurons.append(Sigmoid_Neuron(input_neurons, weights_matrix[i]))
@@ -115,9 +110,13 @@ class NeuralNetwork:
     def propagate(self, inputs):
         self.input_layer.propagate(inputs)
         for layer in self.layers:
-            layer.propagate
+            layer.propagate()
         self.output_layer.propagate()
     def print_output(self):
         self.output_layer.print_output()
-    def get_output(self):
-        self.output_layer.get_output()
+    def out(self):
+        labels = []
+        for neuron in self.output_layer.neurons:
+            if neuron.value > 0:
+                labels.append(neuron.label)
+        return labels
