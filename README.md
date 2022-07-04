@@ -16,7 +16,7 @@ It contains an input layer of 4 neurons, 2 sigmoid layers of 4 neurons, 1 ReLU l
 *This diagram shows the layers of the implemented neural network, with vectors representing weights shown next to individual neurons.*
 ![Diagram of the neural network implemented using the framework built](neural_network_diagram.PNG)
 
-### Extendability:
+### Extendibility:
 While the framework was built with the intention of implementing the neural network example highlighted by Brandon Rohrer,
 various other neural networks could be built using this same framework. By increasing the per-layer neuron count and modifying the weights accordingly,
 a similar neural network could be built for 3x3 squares, for example.
