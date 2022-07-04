@@ -46,10 +46,10 @@ nn.propagate(input_matrix)
 print(nn.out())
 
 ## test 2
-# print("\nTest 2")
-# nn = create_nn()
-# nn.propagate([-1,1-1,1]) # black top left corner & bottom right corner diagonal, rest white
-# print(nn.out())
+print("\nTest 2")
+nn = create_nn()
+nn.propagate([-1,1,-1,1]) # black top left corner & bottom right corner diagonal, rest white
+print(nn.out())
 
 ## test 3
 print("\nTest 3")
@@ -58,7 +58,7 @@ nn.propagate([1,1,1,1]) # solid white box
 print(nn.out())
 
 ## test 4
-# print("\nTest 4")
-# nn = create_nn()
-# nn.propagate([-1,1,1-1]) # black left col, white right col
-# print(nn.out())
+print("\nTest 4")
+nn = create_nn()
+nn.propagate([-1,1,1,-1]) # black left col, white right col
+print(nn.out())
